@@ -1,14 +1,64 @@
+import type { Period } from './../constants'
 import { defineStore } from 'pinia'
+import type { Post, TimelinePost } from './../posts'
+import { DateTime } from 'luxon'
 interface PostsState {
-  foo: string
+  ids: string[]
+  all: Map<String, Post>
+  selectedPeriod: Period
+}
+function delay() {
+  return new Promise<void>((res) => setTimeout(res, 1500))
 }
 export const usePosts = defineStore('posts', {
   state: (): PostsState => ({
-    foo: 'foo'
+    ids: [],
+    all: new Map(),
+    selectedPeriod: 'Today'
   }),
+
   actions: {
-    updateFoo(foo: string) {
-      this.foo = foo
+    setSelectedPeriod(period: Period) {
+      this.selectedPeriod = period
+    },
+    async fetchPosts() {
+      const res = await window.fetch('http://localhost:8000/posts')
+      const data = (await res.json()) as Post[]
+      await delay()
+      // eslint-disable-next-line prefer-const
+      let ids: string[] = []
+      // eslint-disable-next-line prefer-const
+      let all = new Map<string, Post>()
+      for (const post of data) {
+        ids.push(post.id)
+        all.set(post.id, post)
+      }
+      this.ids = ids
+      this.all = all
+    }
+  },
+  getters: {
+    filteredPost: (state): TimelinePost[] => {
+      return state.ids
+        .map((id) => {
+          const post = state.all.get(id)
+          if (!post) {
+            throw Error(`Post with id of ${id} was expected but not found.`)
+          }
+          return {
+            ...post,
+            created: DateTime.fromISO(post.created)
+          }
+        })
+        .filter((post) => {
+          if (state.selectedPeriod === 'Today') {
+            return post.created >= DateTime.now().minus({ day: 1 })
+          }
+          if (state.selectedPeriod === 'This Week') {
+            return post.created >= DateTime.now().minus({ week: 1 })
+          }
+          return post
+        })
     }
   }
 })
