@@ -2,13 +2,16 @@
 import { computed } from 'vue'
 import NavBar from './components/NavBar.vue'
 import { useModal } from './composables/modal'
-
+import { useUsers } from './stores/users'
 const modal = useModal()
+const userStore = useUsers()
+
 const modalStyle = computed(() => {
   return {
     display: modal.show.value ? 'block' : 'none'
   }
 })
+userStore.authenticate()
 </script>
 
 <template>

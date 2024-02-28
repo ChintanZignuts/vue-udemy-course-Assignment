@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { TimelinePost } from '@/posts'
+import type { Post, TimelinePost } from '@/posts'
 import { ref, onMounted, watch } from 'vue'
 import { marked } from 'marked'
 import highlightjs from 'highlight.js'
@@ -7,7 +7,7 @@ import { debounce } from 'lodash'
 import { usePosts } from '@/stores/posts'
 import { useRouter } from 'vue-router'
 const props = defineProps<{
-  post: TimelinePost
+  post: TimelinePost | Post
 }>()
 
 const title = ref(props.post.title)
