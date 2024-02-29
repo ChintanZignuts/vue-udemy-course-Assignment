@@ -1,3 +1,5 @@
+<!-- signup component that reuse userForm component  -->
+
 <script setup lang="ts">
 import { useUsers } from '@/stores/users'
 import type { NewUser } from '../users'

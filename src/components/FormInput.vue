@@ -1,15 +1,21 @@
+<!-- the reuseable input component  -->
 <script setup lang="ts">
 import type { Status } from '@/validation'
 
+//the props for name type status message like any error or validation message
 defineProps<{
   name: string
   modelValue: string
   status: Status
   type: string
 }>()
+
+
 const emit = defineEmits<{
   (event: 'update:modelValue', value: string): void
 }>()
+
+//this function for take the input and show the validation 
 function handleInput(e: Event) {
   const value = (e.target as HTMLInputElement).value
   emit('update:modelValue', value)
@@ -21,6 +27,8 @@ function handleInput(e: Event) {
     <div class="control">
       <input :type="type" :id="name" class="input" :value="modelValue" @input="handleInput" />
     </div>
+
+    <!-- Error message  -->
     <p class="is-danger help" v-if="!status.valid">
       {{ status.message }}
     </p>

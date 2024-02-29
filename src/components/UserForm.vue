@@ -1,3 +1,4 @@
+<!-- reuseable form component that use FormInput -->
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import FormInput from '../components/FormInput.vue'

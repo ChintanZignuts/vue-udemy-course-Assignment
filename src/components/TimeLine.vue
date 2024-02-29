@@ -1,3 +1,4 @@
+<!-- component that display all post using TimeLineitem  -->
 <script setup lang="ts">
 import TimelineItem from './TimelineItem.vue'
 import { usePosts } from '../stores/posts'
