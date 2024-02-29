@@ -1,3 +1,6 @@
+<!-- the component that reuse userForm  -->
+<!-- it use Users store for authentication and authorization -->
+
 <script setup lang="ts">
 import { useUsers } from '@/stores/users'
 import type { NewUser } from '../users'
@@ -8,6 +11,9 @@ import { ref } from 'vue'
 const usersStore = useUsers()
 const modal = useModal()
 const error = ref('')
+
+//function for handle submit event and add user data to backend then successfully signin the modal is hide
+
 async function handleSignin(newUser: NewUser) {
   const body = JSON.stringify(newUser)
   const res = await window.fetch('/api/login', {

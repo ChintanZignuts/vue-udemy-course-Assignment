@@ -1,3 +1,5 @@
+<!-- reuseable postwriter component that use in create new post and edit existing post  -->
+
 <script setup lang="ts">
 import type { Post, TimelinePost } from '@/posts'
 import { ref, onMounted, watch } from 'vue'
@@ -23,6 +25,17 @@ const router = useRouter()
 //   })
 // })
 
+//but watch gives more readability
+watch(
+  content,
+  debounce((newContent) => {
+    parseHtml(newContent)
+  }, 250),
+  {
+    immediate: true
+  }
+)
+
 //function for convert content to html
 function parseHtml(markdown: string) {
   marked.parse(
@@ -39,16 +52,6 @@ function parseHtml(markdown: string) {
     }
   )
 }
-//but watch gives more readability
-watch(
-  content,
-  debounce((newContent) => {
-    parseHtml(newContent)
-  }, 250),
-  {
-    immediate: true
-  }
-)
 
 onMounted(() => {
   if (!contentEditable.value) {

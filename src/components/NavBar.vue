@@ -1,3 +1,7 @@
+<!-- navbar component show button sign in, sign up and new post,log out  -->
+<!-- it show this conditional based on user is login or not -->
+<!-- This components use:- users from store,and modal for show and hide the signup, signin form -->
+
 <script setup lang="ts">
 import { router } from '@/router'
 import { useModal } from '../composables/modal'
@@ -7,6 +11,7 @@ const modal = useModal()
 const usersStore = useUsers()
 async function logout() {
   await usersStore.logout()
+  //redirect to homepage
   router.push({ path: '/' })
 }
 </script>
