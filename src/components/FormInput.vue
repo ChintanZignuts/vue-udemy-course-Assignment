@@ -9,13 +9,11 @@ defineProps<{
   status: Status
   type: string
 }>()
-
-
 const emit = defineEmits<{
   (event: 'update:modelValue', value: string): void
 }>()
 
-//this function for take the input and show the validation 
+//this function for take the input and show the validation
 function handleInput(e: Event) {
   const value = (e.target as HTMLInputElement).value
   emit('update:modelValue', value)
